@@ -21,7 +21,7 @@ class ScheduleTest extends TestCase
 
     public function testCreateScheduleWithEightTeams()
     {
-        $teams = ['A','B','C','D','E','F','G'];
+        $teams = ['A','B','C','D','E','F','G','H'];
         $schedule = (new Schedule())->createSchedule($teams);
 
         $totalMatches = 0;
@@ -30,8 +30,8 @@ class ScheduleTest extends TestCase
                 $totalMatches++;
             }
         }
-print_r($schedule);
-        $this->assertEquals($totalMatches, 21);
+
+        $this->assertEquals($totalMatches, 28);
     }
 
     public function testCalculateRoundFunctionRunsOk()
