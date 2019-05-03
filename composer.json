@@ -1,6 +1,7 @@
 {
     "name": "estbase/round-robin",
     "description": "Package to generate Round-robin schedule for a tournament.",
+    "keywords": ["estbase", "round-robin", "roundrobin", "generator", "tournaments", "scheduler", "sports", "esports"],
     "type": "library",
     "license": "MIT",
     "authors": [

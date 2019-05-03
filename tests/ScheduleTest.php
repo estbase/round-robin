@@ -3,7 +3,7 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use Roundrobin\Schedule;
+use estbase\Roundrobin\Schedule;
 
 class ScheduleTest extends TestCase
 {

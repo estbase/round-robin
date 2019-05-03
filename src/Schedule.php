@@ -1,6 +1,6 @@
 <?php
 
-namespace Roundrobin;
+namespace estbase\Roundrobin;
 
 class Schedule
 {
