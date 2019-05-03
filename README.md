@@ -24,13 +24,70 @@ Based on code of: https://github.com/mnito/round-robin
 - PHPUnit tested
 
 ## Installation
-If you have Composer, run on your terminal:
-```
+If you use Composer, run on your terminal:
+```sh
 composer require estbase/round-robin
 ```
 
+in other cases add the following line on required packages:
+
+```json
+"estbase/round-robin": "^1.0"
+```
+
+Ready to use!
+
 ## Usage
-TBC
+
+#### Short call, generating a schedule where each player meets every other player once:
+```php
+$schedule = Schedule::create(['A','B','C','D']);
+```
+
+or
+
+```php
+$teams = ['A','B','C','D'];
+$schedule = Schedule::create($teams);
+```
+
+#### Generate schedule with personalized number of rounds or on each team plays with other team twice:
+```php
+$teams = ['A','B','C','D'];
+$schedule = Schedule::create($teams, 5);
+```
+
+or
+
+```php
+$teams = ['A','B','C','D'];
+$rounds = (($count = count($teams)) % 2 === 0 ? $count - 1 : $count) * 2;
+$schedule = Schedule::create($teams, $rounds);
+```
+
+#### Generate schedule with or without adding a bye for an odd-numbered tournaments:
+This case generates a Schedule adding a bye.
+```php
+$teams = ['A','B','C','D','E'];
+$schedule = Schedule::create($teams);
+```
+
+or without it
+
+```php
+$teams = ['A','B','C','D','E'];
+$schedule = Schedule::create($teams, null, false);
+```
+
+#### Generate a schedule without randomly shuffling the teams:
+```php
+$schedule = Schedule::createSchedule(['A','B','C','D'],null,true, false);
+```
+
+#### Using your own seed to generate the schedule with predetermined shuffling:
+```php
+$schedule = Schedule::createSchedule(['A','B','C','D'],null,true, true, 9);
+```
 
 ## License
 EST Base round-robin package is free software distributed under the terms of the MIT license.

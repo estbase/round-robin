@@ -11,7 +11,7 @@ class ScheduleTest extends TestCase
     public function testCreateScheduleWithTwoTeams()
     {
         $teams = ['A','B'];
-        $schedule = Schedule::createSchedule($teams);
+        $schedule = Schedule::create($teams);
 
         $estimatedResult1 = [1=>[['A','B']]];
         $estimatedResult2 = [1=>[['B','A']]];
@@ -22,7 +22,7 @@ class ScheduleTest extends TestCase
     public function testCreateScheduleWithEightTeams()
     {
         $teams = ['A','B','C','D','E','F','G','H'];
-        $schedule = Schedule::createSchedule($teams);
+        $schedule = Schedule::create($teams);
 
         $totalMatches = 0;
         foreach ($schedule as $round) {
@@ -39,7 +39,7 @@ class ScheduleTest extends TestCase
         $teams = ['A','B','C','D','E','F','G','H'];
         $totalTeams = (count($teams)*2)-1;
 
-        $schedule = Schedule::createSchedule($teams, $totalTeams);
+        $schedule = Schedule::create($teams, $totalTeams);
 
         $totalMatches = 0;
         foreach ($schedule as $round) {
@@ -61,6 +61,6 @@ class ScheduleTest extends TestCase
 
         $this->expectException('Seed parameter has no effect when shuffle parameter is set to false');
 
-        $schedule = Schedule::createSchedule($teams, null, true, false, 9);
+        $schedule = Schedule::create($teams, null, true, false, 9);
     }
 }

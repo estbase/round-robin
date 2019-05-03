@@ -13,7 +13,7 @@ class Schedule
      * @return array
      * @throws \Exception
      */
-    public static function createSchedule(array $teams, int $rounds = null, bool $bye = true, bool $shuffle = true, int $seed = null): array
+    public static function create(array $teams, int $rounds = null, bool $bye = true, bool $shuffle = true, int $seed = null): array
     {
         $teamCount = count($teams);
 
