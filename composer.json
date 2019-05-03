@@ -1,5 +1,5 @@
 {
-    "name": "onavascuez/round-robin",
+    "name": "estbase/round-robin",
     "description": "Package to generate Round-robin schedule for a tournament.",
     "type": "library",
     "license": "MIT",
