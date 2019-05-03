@@ -1,35 +1,49 @@
 <?php
 
-namespace Roundrobin\Domain;
+namespace Roundrobin;
 
-use Roundrobin\Domain\SchedulerInterface;
-
-class Schedule implements SchedulerInterface
+class Schedule
 {
-
-    public function createSchedule(array $teams, int $rounds = null, bool $shuffle = true, int $seed = null): array
+    /**
+     * @param array $teams
+     * @param int|null $rounds
+     * @param bool $bye
+     * @param bool $shuffle
+     * @param int|null $seed
+     * @return array
+     * @throws \Exception
+     */
+    public static function createSchedule(array $teams, int $rounds = null, bool $bye = true, bool $shuffle = true, int $seed = null): array
     {
         $teamCount = count($teams);
+
+        // Guard clause
         if($teamCount < 2) {
             return [];
         }
-        //Account for odd number of teams by adding a bye
-        if($teamCount % 2 === 1) {
-            array_push($teams, null);
-            $teamCount += 1;
+
+        if ($bye) {
+            // In case of odd number of teams add or not a bye
+            if($teamCount % 2 === 1) {
+                array_push($teams, null);
+                $teamCount += 1;
+            }
         }
+
         if($shuffle) {
-            //Seed shuffle with random_int for better randomness if seed is null
-            srand($seed ?? random_int(PHP_INT_MIN, PHP_INT_MAX));
+            // Seed shuffle with random_int for better randomness if seed is null, and mt_rand adding entropy and speed
+            mt_srand($seed ?? random_int(PHP_INT_MIN, PHP_INT_MAX));
             shuffle($teams);
         } elseif(!is_null($seed)) {
-            //Generate friendly notice that seed is set but shuffle is set to false
-            trigger_error('Seed parameter has no effect when shuffle parameter is set to false');
+            trigger_error('Seed parameter has no effect when shuffle parameter is set to false', E_USER_ERROR);
         }
+
         $halfTeamCount = $teamCount / 2;
+
         if($rounds === null) {
             $rounds = $teamCount - 1;
         }
+
         $schedule = [];
         for($round = 1; $round <= $rounds; $round += 1) {
             foreach($teams as $key => $team) {
@@ -38,33 +52,26 @@ class Schedule implements SchedulerInterface
                 }
                 $team1 = $team;
                 $team2 = $teams[$key + $halfTeamCount];
-                //Home-away swapping
+                // Home-away swapping
                 $matchup = $round % 2 === 0 ? [$team1, $team2] : [$team2, $team1];
                 $schedule[$round][] = $matchup;
             }
-            $this->rotate($teams);
+            self::rotate($teams);
         }
+
         return $schedule;
-
     }
 
-    public function calculateMatches(int $totalTeams): int
-    {
-        return $totalTeams*($totalTeams-1)/2;
-    }
-
-    function rotate(array &$items)
+    /**
+     * @param array $items
+     */
+    private static function rotate(array &$items)
     {
         $itemCount = count($items);
         if($itemCount < 3) {
             return;
         }
         $lastIndex = $itemCount - 1;
-        /**
-         * Though not technically part of the round-robin algorithm, odd-even
-         * factor differentiation included to have intuitive behavior for arrays
-         * with an odd number of elements
-         */
         $factor = (int) ($itemCount % 2 === 0 ? $itemCount / 2 : ($itemCount / 2) + 1);
         $topRightIndex = $factor - 1;
         $topRightItem = $items[$topRightIndex];
@@ -79,6 +86,4 @@ class Schedule implements SchedulerInterface
         $items[1] = $bottomLeftItem;
         $items[$lastIndex] = $topRightItem;
     }
-
-
 }
