@@ -51,6 +51,26 @@ class ScheduleTest extends TestCase
         $this->assertEquals($totalMatches, 60);
     }
 
+    public function testCreateScheduleWithOddTeamsAndBye()
+    {
+        $teams = ['A','B','C','D','E','F','G'];
+        $totalTeams = (count($teams)*2)-1;
+
+        $schedule = Schedule::create($teams, null,true,true,2);
+
+        $totalMatches = 0;
+        foreach ($schedule as $round) {
+            foreach ($round as $match) {
+                $totalMatches++;
+            }
+        }
+
+        $this->assertEquals($totalMatches, 28);
+        $this->assertNull($schedule[1][2][1]);
+        $this->assertEquals($schedule[1][2][0], 'D');
+        $this->assertNull($schedule[5][1][0]);
+    }
+
     public function testErrorWhenCreateScheduleWithEightTeamsAndSeedWithoutShuffle()
     {
         $this->markTestIncomplete(
