@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace estbase\Roundrobin;
 
 class Schedule
@@ -65,7 +67,7 @@ class Schedule
     /**
      * @param array $items
      */
-    private static function rotate(array &$items)
+    private static function rotate(array &$items): void
     {
         $itemCount = count($items);
         if($itemCount < 3) {

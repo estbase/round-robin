@@ -20,7 +20,7 @@ Based on code of: https://github.com/mnito/round-robin
 - Support for any number of teams (Indicated for no more than 12 or 14 teams)
 - Ability to generate a number of rounds on demand
 - Ability to configure add a bye for odd-numbered team counts
-- PHP 7.1
+- PHP 8.3
 - PHPUnit tested
 
 ## Installation
@@ -32,7 +32,7 @@ composer require estbase/round-robin
 in other cases add the following line on required packages:
 
 ```json
-"estbase/round-robin": "^1.0"
+"estbase/round-robin": "^2.0"
 ```
 
 Ready to use!
